@@ -44,9 +44,31 @@ This project is fully containerized. To get everything up and running in a singl
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Desktop%20Computer.png" alt="Desktop Computer" width="25" height="25" /> Environment Setup
 
-Both `api` and `client` require their own `.env` files for local (non-docker) development. Please refer to the README files in each directory for specific configuration details:
-- [API Configuration Guide](./api/README.md#%EF%B8%8F-environment-variables-env-setup)
-- [Client Configuration Guide](./client/README.md#%EF%B8%8F-environment-variables-env-setup)
+Both `api` and `client` require their own `.env` files for local (non-docker) development. Follow the templates below:
+
+### 🔌 Backend API (`/api/.env`)
+Create a `.env` file in the `api` directory with the following variables:
+```env
+PORT=4000
+NODE_ENV=development
+MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/fiverr
+JWT_SECRET=your_super_secret_key_here
+JWT_EXPIRES=1209600
+CLOUD_NAME=your_cloud_name
+CLOUD_API_KEY=your_api_key
+CLOUD_SECRET=your_api_secret
+CROSS_ORIGIN=http://localhost:5173
+```
+
+### 💻 Frontend Client (`/client/.env`)
+Create a `.env` file in the `client` directory with the following variable:
+```env
+VITE_API_URL=http://localhost:4000/api/
+```
+
+> [!TIP]
+> For more detailed configuration options, please refer to the individual [API Guide](./api/README.md) and [Client Guide](./client/README.md).
+
 
 ## 📁 Key Features
 
