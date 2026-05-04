@@ -1,0 +1,45 @@
+# Docker Compose yapılandırma dosyası
+services:
+  # MongoDB Veritabanı Servisi
+  mongodb:
+    image: mongo:latest
+    container_name: fiverr_mongodb
+    ports:
+      - "50000:27017" # Bilgisayarınızdaki 50000 portunu Docker içindeki 27017'ye bağlar
+    volumes:
+      - mongo_data:/data/db # Verilerin kalıcı olması için volume kullanımı
+
+  # API (Backend) Servisi
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: fiverr_api
+    ports:
+      - "4000:4000" # .env dosyanızdaki PORT ile uyumlu
+    environment:
+      - PORT=4000
+      - MONGO_URI=mongodb://mongodb:27017/fiverr # 'localhost' yerine servis adını (mongodb) kullanıyoruz
+      - JWT_SECRET=cA9x!zP7@YqRb6vLEj!KwT1nM2UdHG5Q!djfndskjfyau2167r
+      - JWT_EXPIRES=1209600
+      - CLOUD_NAME=ddfkjjnxe
+      - CLOUD_API_KEY=563318394421961
+      - CLOUD_SECRET=8zVF7OYoz58jcoJ4Oyf6J3i-c44
+      - CROSS_ORIGIN=http://localhost:80 # Client servisinin portu
+    depends_on:
+      - mongodb # API başlatılmadan önce veritabanının hazır olduğundan emin olur
+
+  # Client (Frontend) Servisi
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: fiverr_client
+    ports:
+      - "80:80" # Tarayıcıdan http://localhost adresinden erişilebilir
+    depends_on:
+      - api # Frontend'in API'ye bağımlı olduğunu belirtir
+
+# Kalıcı veriler için Volume tanımlamaları
+volumes:
+  mongo_data:
