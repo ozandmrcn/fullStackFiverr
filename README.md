@@ -6,8 +6,8 @@ Welcome to the **fullStackFiverr** project! This is a complete, full-stack Fiver
 
 The project is divided into two main parts:
 
-- **[api](./api):** The backend RESTful API built with Node.js, Express, and MongoDB.
-- **[client](./client):** The frontend web application built with React, Vite, and TailwindCSS.
+- **[api](https://github.com/ozandmrcn/fullStackFiver-backend):** The backend RESTful API built with Node.js, Express, and MongoDB.
+- **[client](https://github.com/ozandmrcn/fullStackFiver-frontend):** The frontend web application built with React, Vite, and TailwindCSS.
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png" alt="Rocket" width="25" height="25" /> Docker Setup & Installation
 
