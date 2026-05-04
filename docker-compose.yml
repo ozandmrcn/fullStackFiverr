@@ -1,45 +1,59 @@
-# Docker Compose yapılandırma dosyası
+# Docker Compose configuration file
 services:
-  # MongoDB Veritabanı Servisi
+  # MongoDB Database Service
   mongodb:
     image: mongo:latest
     container_name: fiverr_mongodb
     ports:
-      - "50000:27017" # Bilgisayarınızdaki 50000 portunu Docker içindeki 27017'ye bağlar
+      - "50000:27017" # Maps port 50000 on host to 27017 in container
     volumes:
-      - mongo_data:/data/db # Verilerin kalıcı olması için volume kullanımı
+      - mongo_data:/data/db # Persistence for database data
+    networks:
+      - fiverr_network
 
-  # API (Backend) Servisi
+  # API (Backend) Service
   api:
     build:
       context: ./api
       dockerfile: Dockerfile
     container_name: fiverr_api
     ports:
-      - "4000:4000" # .env dosyanızdaki PORT ile uyumlu
+      - "4000:4000"
     environment:
       - PORT=4000
-      - MONGO_URI=mongodb://mongodb:27017/fiverr # 'localhost' yerine servis adını (mongodb) kullanıyoruz
-      - JWT_SECRET=cA9x!zP7@YqRb6vLEj!KwT1nM2UdHG5Q!djfndskjfyau2167r
-      - JWT_EXPIRES=1209600
-      - CLOUD_NAME=ddfkjjnxe
-      - CLOUD_API_KEY=563318394421961
-      - CLOUD_SECRET=8zVF7OYoz58jcoJ4Oyf6J3i-c44
-      - CROSS_ORIGIN=http://localhost:80 # Client servisinin portu
+      - MONGO_URI=mongodb://mongodb:27017/fiverr # Using service name 'mongodb' as host
+      - JWT_SECRET=${JWT_SECRET:-cA9x!zP7@YqRb6vLEj!KwT1nM2UdHG5Q!djfndskjfyau2167r}
+      - JWT_EXPIRES=${JWT_EXPIRES:-1209600}
+      - CLOUD_NAME=${CLOUD_NAME:-ddfkjjnxe}
+      - CLOUD_API_KEY=${CLOUD_API_KEY:-563318394421961}
+      - CLOUD_SECRET=${CLOUD_SECRET:-8zVF7OYoz58jcoJ4Oyf6J3i-c44}
+      - CROSS_ORIGIN=http://localhost # Client service address
     depends_on:
-      - mongodb # API başlatılmadan önce veritabanının hazır olduğundan emin olur
+      - mongodb
+    networks:
+      - fiverr_network
 
-  # Client (Frontend) Servisi
+  # Client (Frontend) Service
   client:
     build:
       context: ./client
       dockerfile: Dockerfile
     container_name: fiverr_client
     ports:
-      - "80:80" # Tarayıcıdan http://localhost adresinden erişilebilir
+      - "80:80" # Accessible via http://localhost
+    environment:
+      - VITE_API_URL=http://localhost:4000/api/
     depends_on:
-      - api # Frontend'in API'ye bağımlı olduğunu belirtir
+      - api
+    networks:
+      - fiverr_network
 
-# Kalıcı veriler için Volume tanımlamaları
+# Networks definition
+networks:
+  fiverr_network:
+    driver: bridge
+
+# Volumes for persistent data
 volumes:
   mongo_data:
+
