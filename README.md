@@ -38,7 +38,7 @@ This project is fully containerized. For a step-by-step guide on how to organize
 Both `api` and `client` services are pre-configured in `docker-compose.yml`. For custom configurations, you can use `.env` files:
 
 > [!TIP]
-> For more detailed configuration options, please refer to the individual [API Guide](./api/README.md) and [Client Guide](./client/README.md).
+> For more detailed configuration options, please refer to the individual [API Guide](https://github.com/ozandmrcn/fullStackFiver-backend/blob/main/README.md) and [Client Guide](https://github.com/ozandmrcn/fullStackFiver-frontend/blob/main/README.md).
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/File%20Folder.png" alt="File Folder" width="25" height="25" /> Key Features
 
